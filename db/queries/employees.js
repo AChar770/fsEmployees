@@ -1,11 +1,11 @@
-import db from "../client";
+import db from "../client.js";
 
 /** @returns the employee created according to the provided details */
 
 export async function createEmployee({ name, birthday, salary }) {
   const sql = `INSERT INTO employees (name, birthday, salary)
   VALUES ($1, $2, $3)`;
-  db.query(sql, [name, birthday, salary]);
+  await db.query(sql, [name, birthday, salary]);
 }
 
 // === Part 2 ===
@@ -46,7 +46,7 @@ export async function updateEmployee({ id, name, birthday, salary }) {
  * @returns undefined if employee with the given id does not exist
  */
 export async function deleteEmployee(id) {
-  const sql = `DELETE FROM employees WHERE id = $1 REUTRNING *`;
+  const sql = `DELETE FROM employees WHERE id = $1 RETURNING *`;
   const data = await db.query(sql, [id]);
   return data.rows[0];
 }
